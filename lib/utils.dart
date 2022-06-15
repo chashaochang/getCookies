@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/const.dart';
+import 'package:getcookies/const.dart';
 
 class Utils {
 

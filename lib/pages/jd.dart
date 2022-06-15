@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/const.dart';
+import 'package:getcookies/const.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../utils.dart';

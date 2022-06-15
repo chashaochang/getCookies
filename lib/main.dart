@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:my_app/pages/elm.dart';
-import 'package:my_app/pages/jd.dart';
+import 'package:getcookies/pages/elm.dart';
+import 'package:getcookies/pages/jd.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
@@ -79,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
  
         onTap: (index){
           setState(() {
-            print("the index is :$index");
+            //print("the index is :$index");
             currentIndex=index;
           });
         },

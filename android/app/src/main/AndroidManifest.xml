@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.my_app">
+    package="cn.xiaobai.getcookies">
    <application
-        android:label="my_app"
+        android:label="getCookies"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

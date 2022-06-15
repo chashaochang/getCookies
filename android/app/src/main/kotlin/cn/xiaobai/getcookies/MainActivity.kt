@@ -1,4 +1,4 @@
-package com.example.my_app
+package cn.xiaobai.getcookies
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
