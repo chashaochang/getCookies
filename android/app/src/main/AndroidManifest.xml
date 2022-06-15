@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.xiaobai.getcookies">
+    <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="getCookies"
         android:name="${applicationName}"
