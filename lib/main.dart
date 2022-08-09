@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:getcookies/pages/elm.dart';
 import 'package:getcookies/pages/jd.dart';
+import 'package:getcookies/pages/meituan.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 void main() {
@@ -44,7 +45,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   var currentIndex=0;
-  var allPages=[const JdPage(),const ElmPage()];
+  var allPages=[const JdPage(),const ElmPage(),const MeiTuanPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +73,11 @@ class _MyHomePageState extends State<MyHomePage> {
               icon: Icon(Icons.person),
               label: "饿了么",
               //backgroundColor:Colors.blue
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.apple),
+            label: "美团",
+            //backgroundColor:Colors.blue
           ),
         ],
  

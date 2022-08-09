@@ -4,7 +4,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:getcookies/const.dart';
 
 class Utils {
-
   static Future<String> getCookies(String initUrl) async {
     const platform = MethodChannel(Constants.channel);
     return await platform.invokeMethod("getAllCookies", {'url': initUrl});
@@ -28,16 +27,19 @@ class Utils {
     return cookieValue;
   }
 
-  static void showAlert(String str,BuildContext context,{bool isJd = false}) {
+  static void showAlert(String str, BuildContext context,
+      {bool isJd = false, bool isMeiTuan = false}) {
     print(str);
     var text = "";
-    if(isJd){
-     text = "pt_key=" +
-        getCookieByName(str, "pt_key") +
-        ";pt_pin=" +
-        getCookieByName(str, "pt_pin") +
-        ";";
-    }else{
+    if (isJd) {
+      text = "pt_key=" +
+          getCookieByName(str, "pt_key") +
+          ";pt_pin=" +
+          getCookieByName(str, "pt_pin") +
+          ";";
+    } else if (isMeiTuan) {
+      text = "token=" + getCookieByName(str, "token") + ";";
+    } else {
       text = str;
     }
     showDialog(
