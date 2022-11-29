@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:getcookies/pages/elm.dart';
 import 'package:getcookies/pages/jd.dart';
 import 'package:getcookies/pages/meituan.dart';
+import 'package:getcookies/utils.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'const.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,15 +20,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: '获取京东/饿了么Cookie'),
@@ -43,73 +37,99 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  var currentIndex=0;
-  var allPages=[const JdPage(),const ElmPage(),const MeiTuanPage()];
+  var currentIndex = 0;
+  var allPages = [const JdPage(), const ElmPage(), const MeiTuanPage()];
+  var allUrls = [Constants.jdurl, Constants.elmurl, Constants.meituanurl];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        type: BottomNavigationBarType.fixed,
-        unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.blue,
-        /*unselectedLabelStyle:TextStyle(
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: currentIndex,
+          type: BottomNavigationBarType.fixed,
+          unselectedItemColor: Colors.grey,
+          selectedItemColor: Colors.blue,
+          /*unselectedLabelStyle:TextStyle(
           color: Colors.black
         ),*/
-        items: const [
-          BottomNavigationBarItem(
+          items: const [
+            BottomNavigationBarItem(
               icon: Icon(Icons.home),
               label: "京东",
               //backgroundColor:Colors.blue
-          ),
- 
-          BottomNavigationBarItem(
+            ),
+            BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: "饿了么",
               //backgroundColor:Colors.blue
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.apple),
+              label: "美团",
+              //backgroundColor:Colors.blue
+            ),
+          ],
+          onTap: (index) {
+            setState(() {
+              print("the index is :$index");
+              currentIndex = index;
+            });
+          },
+        ),
+        body:
+            Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Expanded(
+                flex: 10,
+                child: Text(""),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Future<bool> a = Utils.clearCookies();
+                  a.then((value) => Utils.toast(value ? "清除成功" : "清除失败"));
+                },
+                child: const Text("清除Cookie"),
+              ),
+              const Spacer(
+                flex: 1,
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Future<String> a = Utils.getCookies(allUrls[currentIndex]);
+                  a.then((value) => Utils.showAlert(value, context, type: currentIndex));
+                },
+                child: const Text("获取Cookie"),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.apple),
-            label: "美团",
-            //backgroundColor:Colors.blue
-          ),
-        ],
- 
-        onTap: (index){
-          setState(() {
-            //print("the index is :$index");
-            currentIndex=index;
-          });
-        },
-      ),
-      body: allPages[currentIndex]
-    );
+          allPages[currentIndex]
+        ]) //
+        );
   }
 }
 
-class Browser extends StatelessWidget {
-  const Browser({Key? key, required this.url, required this.title})
-      : super(key: key);
-
-  final String url;
-  final String title;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
-      body: WebView(
-        initialUrl: url,
-        javascriptMode: JavascriptMode.unrestricted,
-      ),
-    );
-  }
-}
+// class Browser extends StatelessWidget {
+//   const Browser({Key? key, required this.url, required this.title})
+//       : super(key: key);
+//
+//   final String url;
+//   final String title;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(title),
+//       ),
+//       body: WebView(
+//         initialUrl: url,
+//         javascriptMode: JavascriptMode.unrestricted,
+//       ),
+//     );
+//   }
+// }

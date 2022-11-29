@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -7,6 +9,11 @@ class Utils {
   static Future<String> getCookies(String initUrl) async {
     const platform = MethodChannel(Constants.channel);
     return await platform.invokeMethod("getAllCookies", {'url': initUrl});
+  }
+
+  static Future<bool> clearCookies() async {
+    const platform = MethodChannel(Constants.channel);
+    return await platform.invokeMethod("clearAllCookies");
   }
 
   static String getCookieByName(String cookiess, String cookieKey) {
@@ -27,20 +34,33 @@ class Utils {
     return cookieValue;
   }
 
-  static void showAlert(String str, BuildContext context,
-      {bool isJd = false, bool isMeiTuan = false}) {
+  /// @param type 0 jd 1 elm 2 mt
+  static void showAlert(String str, BuildContext context, {int type = 0}) {
     print(str);
     var text = "";
-    if (isJd) {
-      text = "pt_key=" +
-          getCookieByName(str, "pt_key") +
-          ";pt_pin=" +
-          getCookieByName(str, "pt_pin") +
-          ";";
-    } else if (isMeiTuan) {
-      text = "token=" + getCookieByName(str, "token") + ";";
-    } else {
-      text = str;
+    switch (type) {
+      case 0:
+        {
+          text =
+              "pt_key=${getCookieByName(str, "pt_key")};pt_pin=${getCookieByName(str, "pt_pin")};";
+          break;
+        }
+      case 1:
+        {
+          text =
+              "USERID=${getCookieByName(str, "USERID")};SID=${getCookieByName(str, "SID")};cookie2=${getCookieByName(str, "cookie2")};";
+          break;
+        }
+      case 2:
+        {
+          text =
+              "userId=${getCookieByName(str, "userId")}&token=${getCookieByName(str, "token")};";
+          break;
+        }
+      default:
+        {
+          text = str;
+        }
     }
     showDialog(
         context: context,
@@ -71,5 +91,16 @@ class Utils {
                 ),
               ],
             ));
+  }
+
+  static void toast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

@@ -1,6 +1,7 @@
 package io.flutter.plugins;
 
 import android.webkit.CookieManager;
+import android.webkit.ValueCallback;
 
 import androidx.annotation.NonNull;
 
@@ -26,8 +27,8 @@ public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
             case "getAllCookies":
                 getAllCookies(methodCall, result);
                 break;
-            case "cleanCookies":
-                cleanCookies(methodCall, result);
+            case "clearAllCookies":
+                clearAllCookies(methodCall, result);
                 break;
             default:
                 result.notImplemented();
@@ -42,7 +43,14 @@ public class FlutterNativePlugin implements MethodChannel.MethodCallHandler {
         result.success(cookieStr);
     }
 
-    private void cleanCookies(MethodCall call, final MethodChannel.Result result) {
-
+    private void clearAllCookies(MethodCall call, final MethodChannel.Result result) {
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.removeAllCookies(aBoolean -> {
+            if (aBoolean) {
+                result.success(true);
+            } else {
+                result.error("0", "清除失败", null);
+            }
+        });
     }
 }
