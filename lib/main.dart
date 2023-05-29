@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: '获取京东/饿了么Cookie'),
+      home: const MyHomePage(title: '获取京东/饿了么/美团Cookie'),
     );
   }
 }
